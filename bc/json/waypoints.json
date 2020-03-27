@@ -1,0 +1,49 @@
+{
+	"Waypoints":[  
+		{
+			"Position":{  
+				"x":3.92,
+				"y":38.8,
+				"z":0.0
+			},
+			"Index": 0,
+			"Neighbors": [1]
+		},
+		{
+			"Position":{  
+				"x":1.74,
+				"y":38.76,
+				"z":0.0
+			},
+			"Index": 1,
+			"Neighbors": [0, 2]
+		},
+		{
+			"Position":{  
+				"x":1.2,
+				"y":32.58,
+				"z":0.0
+			},
+			"Index": 2,
+			"Neighbors": [1, 3]
+		},
+		{
+			"Position":{  
+				"x":0.89,
+				"y":27.45,
+				"z":0.0
+			},
+			"Index": 3,
+			"Neighbors": [2, 4]
+		},
+		{
+			"Position":{  
+				"x":5.76,
+				"y":27.06,
+				"z":0.0
+			},
+			"Index": 4,
+			"Neighbors": [3]
+		}
+	]
+}
