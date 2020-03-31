@@ -5,12 +5,14 @@ public class Vertex : NSObject {
 
     var id : Int
     var neighbors : LinkedList<Vertex>?
-    public var isSearched : Bool?
+    public var isSearched : Bool
     var predecessor  : Vertex?
 
     init(id : Int) {
         self.id = id;
         self.neighbors = LinkedList<Vertex>();
+        self.isSearched = false;
+   
     }
 
     func addNeighbor( vertex : Vertex) {
@@ -34,7 +36,7 @@ public class Vertex : NSObject {
     }
 
     func getPredecessor() -> Vertex? {
-        return predecessor!;
+        return predecessor;
     }
 
     func setPredecessor(predecessor : Vertex ) {

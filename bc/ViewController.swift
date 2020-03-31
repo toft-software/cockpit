@@ -27,6 +27,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     @IBOutlet weak var scnView: ARSCNView!
     let configuration = ARWorldTrackingConfiguration();
     
+    @IBOutlet weak var goToLocation: UIButton!
     private var image_json : AugmentedImages = AugmentedImages(fromJson: "");
     private var map_obj_json : Maps = Maps(fromJson: "");
     private var waypoint_json : Waypoints = Waypoints(fromJson: "");
@@ -35,16 +36,13 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     private var camera : SCNNode!
     private var arrow : SCNNode!
     private var waypoint : SCNNode!
-    
+    private var waypointShowCup : SCNNode!
+
     private var route : Array<Int> = Array<Int>()
 
     /// A serial queue for thread safety when modifying the SceneKit node graph.
     let updateQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! +
         ".serialSceneKitQueue")
-
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +53,8 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         camera = SCNNode();
         arrow =  SCNNode();
         waypoint = SCNNode();
+        
+        waypointShowCup = SCNNode();
         
         self.scnView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin];
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
@@ -68,7 +68,44 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         image_json = loadJSONFile(filename: "augmentedImages") as! AugmentedImages
         map_obj_json = loadJSONFile(filename: "map_objects") as! Maps
         waypoint_json = loadJSONFile(filename: "waypoints") as! Waypoints
+        
+        let sceneCup = SCNScene(named: "art.scnassets/1a/cup.scn");
+        waypointShowCup = (sceneCup?.rootNode.childNode(withName: "cup", recursively: false))!;
+        
+    }
+    
+    @IBAction func goTo(_ sender: Any) {
+        var target_index = 0;
 
+        let alert = UIAlertController(title: "Title", message: "Please Select Location", preferredStyle: .actionSheet)
+
+        alert.addAction(UIAlertAction(title: "Marinna Gade office", style: .default , handler:{ (UIAlertAction)in
+            target_index = 0;
+             self.findRouteTo(index: target_index);
+        }))
+
+        alert.addAction(UIAlertAction(title: "Christian Office", style: .default , handler:{ (UIAlertAction)in
+            target_index = 1;
+             self.findRouteTo(index: target_index);
+        }))
+
+        alert.addAction(UIAlertAction(title: "Fittness room (LOOP)", style: .default , handler:{ (UIAlertAction)in
+            target_index = 2;
+             self.findRouteTo(index: target_index);
+        }))
+
+        alert.addAction(UIAlertAction(title: "Entrance", style: .default, handler:{ (UIAlertAction)in
+            target_index = 3;
+             self.findRouteTo(index: target_index);
+        }))
+        
+        alert.addAction(UIAlertAction(title: "CANCEL", style: .cancel, handler:{ (UIAlertAction)in
+        }))
+
+        self.present(alert, animated: true, completion: {
+           
+        })
+        
     }
     
     func Add3DMatterPort (augImage : AugmentedImage, QRNode : SCNNode)
@@ -132,7 +169,6 @@ class ViewController: UIViewController, ARSCNViewDelegate{
      //  node.Position = SCNVector3(thirdColumn.X, thirdColumn.Y, thirdColumn.Z);
         node?.position = SCNVector3(0,0,0);
         self.scnView.scene.rootNode.addChildNode(node!);
-
     }
 
     
@@ -143,11 +179,8 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         let location = SCNVector3(transform.m41, transform.m42, transform.m43);
         let currentPositionOfCamera = orientation + location;
         
-
-        
         camera.position = currentPositionOfCamera;
-        arrow.position = SCNVector3( 0,0, 0);  //is a child of camera
-        
+        arrow.position = SCNVector3( 0,0, 0);  //is a child of camera    
         
         // Waypoint nav
         if(route.count > 1) {
@@ -163,19 +196,23 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             map.addChildNode(waypoint);
             waypoint.position = SCNVector3(CGFloat((point_pos!.x as NSString).floatValue), CGFloat((point_pos!.y as NSString).floatValue), CGFloat((point_pos!.z as NSString).floatValue));
 
+            waypoint.addChildNode(waypointShowCup);
            // waypoint.setRenderable(modelRenderable.get(ANDY)); TODO
             waypoint.rotation = SCNVector4( 0.707, 0, 0,0.707);
             pointToNode(node : waypoint);
         }
-        
-        poxX.text = String(camera.position.x);
-        posY.text = String(camera.position.y);
-        posZ.text = String(camera.position.z);
-        
-        rotX.text = String(camera.rotation.x);
-        rotY.text = String(camera.rotation.y);
-        rotZ.text = String(camera.rotation.z);
-        rotW.text = String(camera.rotation.w);
+     /*
+        DispatchQueue.main.async {
+            self.poxX.text = String(self.camera.position.x);
+            self.posY.text = String(self.camera.position.y);
+            self.posZ.text = String(self.camera.position.z);
+            
+            self.rotX.text = String(self.camera.rotation.x);
+            self.rotY.text = String(self.camera.rotation.y);
+            self.rotZ.text = String(self.camera.rotation.z);
+            self.rotW.text = String(self.camera.rotation.w);
+        }*/
+              
     }
     
     
@@ -320,13 +357,13 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         let hasPath = ViewController.bfs(start: start, end: end);
         if (hasPath) {
           // print path
-            var predecessor: Vertex? = nil
-            predecessor = end;
+            var predecessor: Vertex? = end;
+           // predecessor = end;
           route = Array<Int>();
            repeat {
                //take input from standard IO into variable n
             route.insert(predecessor!.id, at: 0)
-            predecessor = predecessor!.getPredecessor()!;
+            predecessor = predecessor!.getPredecessor();
            } while predecessor != nil
         }
         
@@ -360,7 +397,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         var a = atan2(start_vec, end_vec) * 180.0/M_PI;
    //     Quaternion arrow_quat = Quaternion.rotationBetweenVectors(start_vec, end_vec);
     //      arrow.setLocalRotation(arrow_quat);
-        arrow.r
+
         Vector3 start_vec = Vector3.subtract(camera.getWorldPosition(), arrow.getWorldPosition());
         Vector3 end_vec = Vector3.subtract(camera.getWorldPosition(), node.getWorldPosition());
         Quaternion arrow_quat = Quaternion.rotationBetweenVectors(start_vec, end_vec);
@@ -373,8 +410,14 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         let queue  =  LinkedList<Vertex>();
         queue.append(start);
         while (!queue.isEmpty) {
+             
+                
             let vertex = queue.first; //pollfirst = remove find first
-            if (vertex!.isSearched!) {
+            if (vertex != nil) {
+                queue.remove(at: 0);
+            }
+            
+            if (vertex!.isSearched) {
                 continue;
             }
              if (vertex == end) {
