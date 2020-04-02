@@ -78,5 +78,11 @@ class Waypoint : NSObject, NSCoding{
 		}
 
 	}
+       
+    var WorldY : Double {
+    get {
+        return (self.position.z as NSString).doubleValue;
+        }
+    }
 
 }

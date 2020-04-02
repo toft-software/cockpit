@@ -381,33 +381,37 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         //Vector3 node_pos = node.getLocalPosition();
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow( Double(node.position.x) - (json1.x as NSString).doubleValue , 2 ) +
-            pow(Double(node.position.y) - (json1.y as NSString).doubleValue , 2 ));
+            pow(Double(node.position.z) - (json1.z as NSString).doubleValue , 2 ));
         return dist;
     }
       
     func distanceBetweenPoints( json1 : Position, json2 : Position) -> Double {
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow((json1.x as NSString).doubleValue - (json1.x as NSString).doubleValue , 2 ) +
-                    pow((json1.y as NSString).doubleValue - (json1.y as NSString).doubleValue , 2 ))
+                    pow((json1.z as NSString).doubleValue - (json1.z as NSString).doubleValue , 2 ))
         return dist;
       }
 
     func pointToNode(node : SCNNode) {
-   /*    //   Vector3 start_vec = Vector3.subtract(camera.getWorldPosition(), arrow.getWorldPosition());
-        var start_vec = camera.position - arrow.position;
-     //   Vector3 end_vec = Vector3.subtract(camera.getWorldPosition(), node.getWorldPosition());
-        var end_vec = camera.position - node.position;
-        var a = simd_quaternion(start_vec, end_vec);
-        var a = Quaternion
-        var a = atan2(start_vec, end_vec) * 180.0/M_PI;
-   //     Quaternion arrow_quat = Quaternion.rotationBetweenVectors(start_vec, end_vec);
-    //      arrow.setLocalRotation(arrow_quat);
+        let orientationCamera = SCNVector3(-camera.transform.m31, -camera.transform.m32, -camera.transform.m33);
+        let locationCamera = SCNVector3(camera.transform.m41, camera.transform.m42, camera.transform.m43);
+        let currentPositionOfCamera = orientationCamera + locationCamera;
 
-        Vector3 start_vec = Vector3.subtract(camera.getWorldPosition(), arrow.getWorldPosition());
-        Vector3 end_vec = Vector3.subtract(camera.getWorldPosition(), node.getWorldPosition());
-        Quaternion arrow_quat = Quaternion.rotationBetweenVectors(start_vec, end_vec);
-        arrow.setLocalRotation(arrow_quat);
-        */
+        let orientationArrow = SCNVector3(-arrow.transform.m31, -arrow.transform.m32, -arrow.transform.m33);
+        let locationArrow = SCNVector3(arrow.transform.m41, arrow.transform.m42, arrow.transform.m43);
+        let currentPositionOfArrow = orientationArrow + locationArrow;
+        
+        let start_vec = currentPositionOfCamera - currentPositionOfArrow;
+         
+        let end_vec = currentPositionOfCamera - node.position;
+
+        
+        
+        var arrow_quat =  SCNQuaternion(from: start_vec, to: end_vec) ;
+        
+        arrow.localRotate(  by: arrow_quat);
+        
+        
     }
     
      // breadth-first search
