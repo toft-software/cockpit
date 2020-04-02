@@ -69,9 +69,12 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         map_obj_json = loadJSONFile(filename: "map_objects") as! Maps
         waypoint_json = loadJSONFile(filename: "waypoints") as! Waypoints
         
-        let sceneCup = SCNScene(named: "art.scnassets/1a/cup.scn");
+    /*    let sceneCup = SCNScene(named: "art.scnassets/1a/cup.scn");
         waypointShowCup = (sceneCup?.rootNode.childNode(withName: "cup", recursively: false))!;
+        */
         
+        let sceneCup = SCNScene(named: "art.scnassets/mapObject/Jellyfish.dae");
+        waypointShowCup = sceneCup?.rootNode.childNode(withName: "Sphere", recursively: false);
     }
     
     @IBAction func goTo(_ sender: Any) {
@@ -184,24 +187,26 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         
         // Waypoint nav
         if(route.count > 1) {
-            let first_point_pos = waypoint_json.waypoints[0].position;
-            let sec_point_pos = waypoint_json.waypoints[1].position;
+            let first_point_pos = waypoint_json.waypoints[route[0]].position;
+            let sec_point_pos = waypoint_json.waypoints[route[1]].position;
             
             if (distanceBetween(  node :camera, json1: sec_point_pos!) < distanceBetweenPoints(json1 : first_point_pos!, json2 :sec_point_pos!) || (distanceBetween(node : camera, json1 : first_point_pos!) < 1.0)) {
                 route.remove(at : 0);
             }
         }
         if(route.count > 0) {
-            let point_pos = waypoint_json.waypoints[0].position;
+            let point_pos = waypoint_json.waypoints[route[0]].position;
+             
             map.addChildNode(waypoint);
             waypoint.position = SCNVector3(CGFloat((point_pos!.x as NSString).floatValue), CGFloat((point_pos!.y as NSString).floatValue), CGFloat((point_pos!.z as NSString).floatValue));
-
-            waypoint.addChildNode(waypointShowCup);
+            //waypointShowCup.position = SCNVector3(0,1.5,0);
+         //   waypoint.addChildNode(waypointShowCup);
            // waypoint.setRenderable(modelRenderable.get(ANDY)); TODO
+            waypoint = waypointShowCup;
             waypoint.rotation = SCNVector4( 0.707, 0, 0,0.707);
             pointToNode(node : waypoint);
         }
-     /*
+     
         DispatchQueue.main.async {
             self.poxX.text = String(self.camera.position.x);
             self.posY.text = String(self.camera.position.y);
@@ -211,7 +216,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             self.rotY.text = String(self.camera.rotation.y);
             self.rotZ.text = String(self.camera.rotation.z);
             self.rotW.text = String(self.camera.rotation.w);
-        }*/
+        }
               
     }
     
