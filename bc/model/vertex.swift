@@ -8,12 +8,14 @@ public class Vertex : NSObject {
     public var isSearched : Bool
     var predecessor  : Vertex?
 
+    
     init(id : Int) {
         self.id = id;
         self.neighbors = LinkedList<Vertex>();
         self.isSearched = false;
    
     }
+       
 
     func addNeighbor( vertex : Vertex) {
         self.neighbors!.append(vertex);

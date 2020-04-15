@@ -71,5 +71,12 @@ class Position : NSObject, NSCoding{
 		}
 
 	}
+    
+    public var TWO_D_Y: String {
+        get {
+            return self.z;
+            }
+    }
+    
 
 }

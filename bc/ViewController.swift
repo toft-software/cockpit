@@ -16,6 +16,7 @@ import Darwin
 
 class ViewController: UIViewController, ARSCNViewDelegate{
 
+    @IBOutlet weak var idxWaypoint: UILabel!
     @IBOutlet weak var poxX: UILabel!
     @IBOutlet weak var posY: UILabel!
     @IBOutlet weak var posZ: UILabel!
@@ -36,7 +37,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     private var camera : SCNNode!
     private var arrow : SCNNode!
     private var waypoint : SCNNode!
-    private var waypointShowCup : SCNNode!
+    private var waypointShowVase : SCNNode!
 
     private var route : Array<Int> = Array<Int>()
 
@@ -54,7 +55,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         arrow =  SCNNode();
         waypoint = SCNNode();
         
-        waypointShowCup = SCNNode();
+        waypointShowVase = SCNNode();
         
         self.scnView.debugOptions = [ARSCNDebugOptions.showFeaturePoints, ARSCNDebugOptions.showWorldOrigin];
         guard let referenceImages = ARReferenceImage.referenceImages(inGroupNamed: "AR Resources", bundle: nil) else {
@@ -73,8 +74,8 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         waypointShowCup = (sceneCup?.rootNode.childNode(withName: "cup", recursively: false))!;
         */
         
-        let sceneCup = SCNScene(named: "art.scnassets/mapObject/Jellyfish.dae");
-        waypointShowCup = sceneCup?.rootNode.childNode(withName: "Sphere", recursively: false);
+        let sceneVase = SCNScene(named: "art.scnassets/wayObject/vase.scn");
+        waypointShowVase = sceneVase?.rootNode.childNode(withName: "vase", recursively: false);
     }
     
     @IBAction func goTo(_ sender: Any) {
@@ -82,24 +83,28 @@ class ViewController: UIViewController, ARSCNViewDelegate{
 
         let alert = UIAlertController(title: "Title", message: "Please Select Location", preferredStyle: .actionSheet)
 
-        alert.addAction(UIAlertAction(title: "Marinna Gade office", style: .default , handler:{ (UIAlertAction)in
+        alert.addAction(UIAlertAction(title: "off Marinna Gade office", style: .default , handler:{ (UIAlertAction)in
             target_index = 0;
-             self.findRouteTo(index: target_index);
+            self.goToLocation.setTitle("Mariannnas office", for : UIControl.State.normal);
+            self.findRouteTo(index: target_index);
         }))
 
-        alert.addAction(UIAlertAction(title: "Christian Office", style: .default , handler:{ (UIAlertAction)in
-            target_index = 1;
-             self.findRouteTo(index: target_index);
+        alert.addAction(UIAlertAction(title: "comm Christian Office", style: .default , handler:{ (UIAlertAction)in
+            target_index = 4;
+            self.goToLocation.setTitle("MY OFFICE office", for : UIControl.State.normal);
+            self.findRouteTo(index: target_index);
         }))
 
-        alert.addAction(UIAlertAction(title: "Fittness room (LOOP)", style: .default , handler:{ (UIAlertAction)in
-            target_index = 2;
-             self.findRouteTo(index: target_index);
+        alert.addAction(UIAlertAction(title: "fire Fittness room (LOOP)", style: .default , handler:{ (UIAlertAction)in
+            target_index = 5;
+            self.goToLocation.setTitle("FITTNESS ", for : UIControl.State.normal);
+            self.findRouteTo(index: target_index);
         }))
 
         alert.addAction(UIAlertAction(title: "Entrance", style: .default, handler:{ (UIAlertAction)in
-            target_index = 3;
-             self.findRouteTo(index: target_index);
+            target_index = 7;
+            self.goToLocation.setTitle("ENTRANCE", for : UIControl.State.normal);
+            self.findRouteTo(index: target_index);
         }))
         
         alert.addAction(UIAlertAction(title: "CANCEL", style: .cancel, handler:{ (UIAlertAction)in
@@ -160,6 +165,24 @@ class ViewController: UIViewController, ARSCNViewDelegate{
 
     }
     
+      func Add3DWayPointsToMAp (mapObject : Map, map3D : SCNNode)
+      {
+          let scene = SCNScene(named: "art.scnassets/mapObject/Jellyfish.dae");
+          let node3DModel = scene?.rootNode.childNode(withName: "Sphere", recursively: false);
+
+          let position = SCNVector3(CGFloat((mapObject.position.x as NSString).floatValue), CGFloat((mapObject.position.y as NSString).floatValue), CGFloat((mapObject.position.z as NSString).floatValue));
+                 
+          let rx = ((mapObject.rotation.rx as NSString).integerValue.degreesToRadians);
+          let ry = ((mapObject.rotation.ry as NSString).integerValue.degreesToRadians);
+          let rz = ((mapObject.rotation.rz as NSString).integerValue.degreesToRadians);
+    
+          let rotation = SCNVector3(CGFloat(rx), CGFloat(ry), CGFloat(rz));
+
+          node3DModel?.position = position;
+          node3DModel?.eulerAngles = rotation;
+          map3D.addChildNode(node3DModel!);
+
+      }
 
 
     @IBAction func add(_ sender: Any) {
@@ -177,14 +200,14 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         guard let pointOfView = scnView.pointOfView else { return}
-        let transform = pointOfView.transform;
-        let orientation = SCNVector3(-transform.m31, -transform.m32, -transform.m33);
-        let location = SCNVector3(transform.m41, transform.m42, transform.m43);
+        let PointOfViewTransform = pointOfView.transform;
+        let orientation = SCNVector3(-PointOfViewTransform.m31, -PointOfViewTransform.m32, -PointOfViewTransform.m33);
+        let location = SCNVector3(PointOfViewTransform.m41, PointOfViewTransform.m42, PointOfViewTransform.m43);
         let currentPositionOfCamera = orientation + location;
         
         camera.position = currentPositionOfCamera;
-        arrow.position = SCNVector3( 0,0, 0);  //is a child of camera    
-        
+        arrow.position = SCNVector3( 0,-0.25, -0.5);  //is a child of camera
+       
         // Waypoint nav
         if(route.count > 1) {
             let first_point_pos = waypoint_json.waypoints[route[0]].position;
@@ -198,16 +221,26 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             let point_pos = waypoint_json.waypoints[route[0]].position;
              
             map.addChildNode(waypoint);
+            
+            //show waypoints
+    //        let sceneVase = SCNScene(named: "art.scnassets/wayObject/vase.scn");
+     //       waypoint = sceneVase?.rootNode.childNode(withName: "vase", recursively: false);
+            waypoint = waypointShowVase;
             waypoint.position = SCNVector3(CGFloat((point_pos!.x as NSString).floatValue), CGFloat((point_pos!.y as NSString).floatValue), CGFloat((point_pos!.z as NSString).floatValue));
-            //waypointShowCup.position = SCNVector3(0,1.5,0);
-         //   waypoint.addChildNode(waypointShowCup);
-           // waypoint.setRenderable(modelRenderable.get(ANDY)); TODO
-            waypoint = waypointShowCup;
             waypoint.rotation = SCNVector4( 0.707, 0, 0,0.707);
             pointToNode(node : waypoint);
         }
+        
+        var idxW = "";
+        for i in 0..<self.route.count
+        {
+            idxW += String(self.route[i]  ) ;
+        }
      
         DispatchQueue.main.async {
+
+            self.idxWaypoint.text = idxW;
+            
             self.poxX.text = String(self.camera.position.x);
             self.posY.text = String(self.camera.position.y);
             self.posZ.text = String(self.camera.position.z);
@@ -355,16 +388,18 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             }
         }
         
-          // Find shortest path
+        // Find shortest path
         let start = vertexes[start_index];
         let end = vertexes[index];
-
+        
+        
         let hasPath = ViewController.bfs(start: start, end: end);
+        
         if (hasPath) {
           // print path
             var predecessor: Vertex? = end;
            // predecessor = end;
-          route = Array<Int>();
+            route = Array<Int>();
            repeat {
                //take input from standard IO into variable n
             route.insert(predecessor!.id, at: 0)
@@ -381,38 +416,33 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         //Vector3 node_pos = node.getLocalPosition();
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow( Double(node.position.x) - (json1.x as NSString).doubleValue , 2 ) +
-            pow(Double(node.position.z) - (json1.z as NSString).doubleValue , 2 ));
+            pow(Double(node.position.z * -1 )  - (json1.TWO_D_Y as NSString).doubleValue * -1  , 2 ));
         return dist;
     }
       
     func distanceBetweenPoints( json1 : Position, json2 : Position) -> Double {
         var dist = Double.greatestFiniteMagnitude;
-        dist = sqrt(pow((json1.x as NSString).doubleValue - (json1.x as NSString).doubleValue , 2 ) +
-                    pow((json1.z as NSString).doubleValue - (json1.z as NSString).doubleValue , 2 ))
+        dist = sqrt(pow((json1.x as NSString).doubleValue - (json2.x as NSString).doubleValue , 2 ) +
+                    pow((json1.TWO_D_Y as NSString).doubleValue * -1  - (json2.TWO_D_Y as NSString).doubleValue * -1  , 2 ))
         return dist;
       }
 
     func pointToNode(node : SCNNode) {
-        let orientationCamera = SCNVector3(-camera.transform.m31, -camera.transform.m32, -camera.transform.m33);
-        let locationCamera = SCNVector3(camera.transform.m41, camera.transform.m42, camera.transform.m43);
-        let currentPositionOfCamera = orientationCamera + locationCamera;
-
-        let orientationArrow = SCNVector3(-arrow.transform.m31, -arrow.transform.m32, -arrow.transform.m33);
-        let locationArrow = SCNVector3(arrow.transform.m41, arrow.transform.m42, arrow.transform.m43);
-        let currentPositionOfArrow = orientationArrow + locationArrow;
+        let currentPositionOfCamera = getLocation(node: camera) + getOrientation(node: camera);
+        let currentPositionOfArrow = getLocation(node: arrow) + getOrientation(node: arrow);
+        let currentPositionOfNode =   getLocation(node: node) + getOrientation(node: node);
         
         let start_vec = currentPositionOfCamera - currentPositionOfArrow;
-         
-        let end_vec = currentPositionOfCamera - node.position;
-
+        let end_vec = currentPositionOfCamera - currentPositionOfNode;
         
-        
-        var arrow_quat =  SCNQuaternion(from: start_vec, to: end_vec) ;
-        
-        arrow.localRotate(  by: arrow_quat);
-        
+        let arrow_quat = simd_quatf(from: SIMD3<Float>(start_vec.x, start_vec.y, start_vec.z), to: SIMD3<Float>(end_vec.x, end_vec.z, end_vec.y));
+        arrow.rotation = arrow_quat.toSCN();
         
     }
+    
+    
+    
+    
     
      // breadth-first search
     static func bfs( start : Vertex, end : Vertex ) -> Bool {
@@ -429,21 +459,35 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             if (vertex!.isSearched) {
                 continue;
             }
-             if (vertex == end) {
+            if (vertex == end) {
                  return true;
-             } else {
-                for neighbor in vertex!.getNeighbors()! {
-                    if (neighbor.getNeighbors() != nil && neighbor != start) {
+            }
+            else
+            {
+                for neighbor in vertex!.getNeighbors()!
+                {
+                    if (neighbor.getPredecessor() == nil && neighbor != start)
+                    {
                         neighbor.setPredecessor(predecessor: vertex!);
                     }
                     queue.append(neighbor);
                }
-           }
+            }
             vertex!.isSearched = true;
          }
          return false;
      }
 }
+func getOrientation(node : SCNNode ) -> SCNVector3
+{
+    return SCNVector3(-node.transform.m31, -node.transform.m32, -node.transform.m33);
+}
+
+func getLocation(node : SCNNode ) -> SCNVector3
+{
+    return SCNVector3(node.transform.m41, node.transform.m42, node.transform.m43);
+}
+
 
 func +(left: SCNVector3, right: SCNVector3) -> SCNVector3 {
     return SCNVector3Make(left.x + right.x,left.y + right.y, left.z + right.z);

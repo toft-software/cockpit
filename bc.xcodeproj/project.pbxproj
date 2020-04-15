@@ -16,8 +16,8 @@
 		D43F6EB3241FA56700AE1AE6 /* Maps.swift in Sources */ = {isa = PBXBuildFile; fileRef = D43F6EB1241FA56700AE1AE6 /* Maps.swift */; };
 		D454E75E240EA82400B07A42 /* waypoints.json in Resources */ = {isa = PBXBuildFile; fileRef = D454E75B240EA82000B07A42 /* waypoints.json */; };
 		D454E760240EA82400B07A42 /* map_objects.json in Resources */ = {isa = PBXBuildFile; fileRef = D454E75D240EA82400B07A42 /* map_objects.json */; };
-		D454E764240EA90600B07A42 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D454E763240EA90600B07A42 /* Helper.swift */; };
 		D479CBEE242E0D5D00A790D5 /* LinkedList.swift in Sources */ = {isa = PBXBuildFile; fileRef = D479CBED242E0D5D00A790D5 /* LinkedList.swift */; };
+		D48340D8243627B400AE96C5 /* MathExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48340D7243627B400AE96C5 /* MathExt.swift */; };
 		D4BFEEB2240FDBC2000E68C9 /* augmentedImages.json in Resources */ = {isa = PBXBuildFile; fileRef = D454E761240EA85200B07A42 /* augmentedImages.json */; };
 		D4BFEEC324112675000E68C9 /* Position.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFEEBF24112670000E68C9 /* Position.swift */; };
 		D4BFEEC424112675000E68C9 /* AugmentedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFEEC024112672000E68C9 /* AugmentedImage.swift */; };
@@ -69,8 +69,8 @@
 		D454E75B240EA82000B07A42 /* waypoints.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = waypoints.json; sourceTree = "<group>"; };
 		D454E75D240EA82400B07A42 /* map_objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = map_objects.json; sourceTree = "<group>"; };
 		D454E761240EA85200B07A42 /* augmentedImages.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = augmentedImages.json; sourceTree = "<group>"; };
-		D454E763240EA90600B07A42 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
 		D479CBED242E0D5D00A790D5 /* LinkedList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkedList.swift; sourceTree = "<group>"; };
+		D48340D7243627B400AE96C5 /* MathExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MathExt.swift; sourceTree = "<group>"; };
 		D4BFEEBF24112670000E68C9 /* Position.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Position.swift; sourceTree = "<group>"; };
 		D4BFEEC024112672000E68C9 /* AugmentedImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AugmentedImage.swift; sourceTree = "<group>"; };
 		D4BFEEC124112673000E68C9 /* Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
@@ -149,8 +149,8 @@
 		D454E75A240E9BBC00B07A42 /* json */ = {
 			isa = PBXGroup;
 			children = (
-				D454E761240EA85200B07A42 /* augmentedImages.json */,
 				D454E75D240EA82400B07A42 /* map_objects.json */,
+				D454E761240EA85200B07A42 /* augmentedImages.json */,
 				D454E75B240EA82000B07A42 /* waypoints.json */,
 			);
 			path = json;
@@ -169,6 +169,7 @@
 				D4BFEEC124112673000E68C9 /* Rotation.swift */,
 				D41922F8242A0EB1008DD1A7 /* vertex.swift */,
 				D479CBED242E0D5D00A790D5 /* LinkedList.swift */,
+				D48340D7243627B400AE96C5 /* MathExt.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -208,7 +209,6 @@
 				D4FDE3FF24053140003A89C6 /* LaunchScreen.storyboard */,
 				D4FDE40224053140003A89C6 /* Info.plist */,
 				D4FDE42424054864003A89C6 /* art.scnassets */,
-				D454E763240EA90600B07A42 /* Helper.swift */,
 			);
 			path = bc;
 			sourceTree = "<group>";
@@ -481,13 +481,13 @@
 				D43F6EB2241FA56700AE1AE6 /* Map.swift in Sources */,
 				D4BFEEC324112675000E68C9 /* Position.swift in Sources */,
 				D403ED3E2423A41C0093B15A /* Waypoints.swift in Sources */,
-				D454E764240EA90600B07A42 /* Helper.swift in Sources */,
 				D4BFEEC624112675000E68C9 /* AugmentedImages.swift in Sources */,
 				D4BFEEC424112675000E68C9 /* AugmentedImage.swift in Sources */,
 				D41922F9242A0EB1008DD1A7 /* vertex.swift in Sources */,
 				D403ED3D2423A41C0093B15A /* Waypoint.swift in Sources */,
 				D479CBEE242E0D5D00A790D5 /* LinkedList.swift in Sources */,
 				D4BFEEC524112675000E68C9 /* Rotation.swift in Sources */,
+				D48340D8243627B400AE96C5 /* MathExt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
