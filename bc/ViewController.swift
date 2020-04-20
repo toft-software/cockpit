@@ -140,7 +140,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             let rx = ((augImage.rotation.rx as NSString).integerValue.degreesToRadians);
             let ry = ((augImage.rotation.ry as NSString).integerValue.degreesToRadians);
             let rz = ((augImage.rotation.rz as NSString).integerValue.degreesToRadians);
-            let rotation = SCNVector3(CGFloat(rx), CGFloat(ry), CGFloat(rz));
+            let rotation = SCNVector3(Float(rx), Float(ry), Float(rz));
             
             self.map?.position = position;
          //   Rotation around an axis = eulerAngles
@@ -414,14 +414,14 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         //Vector3 node_pos = node.getLocalPosition();
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow( Double(node.position.x) - (json1.x as NSString).doubleValue , 2 ) +
-            pow(Double(node.position.z * -1 )  - (json1.TWO_D_Y as NSString).doubleValue * -1  , 2 ));
+            pow(Double(node.position.z  )  - (json1.y as NSString).doubleValue, 2 ));
         return dist;
     }
       
     func distanceBetweenPoints( json1 : Position, json2 : Position) -> Double {
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow((json1.x as NSString).doubleValue - (json2.x as NSString).doubleValue , 2 ) +
-                    pow((json1.TWO_D_Y as NSString).doubleValue * -1  - (json2.TWO_D_Y as NSString).doubleValue * -1  , 2 ))
+                    pow((json1.y as NSString).doubleValue  - (json2.y as NSString).doubleValue   , 2 ))
         return dist;
       }
 
