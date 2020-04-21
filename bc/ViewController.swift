@@ -16,6 +16,8 @@ import Darwin
 
 class ViewController: UIViewController, ARSCNViewDelegate{
 
+    @IBOutlet weak var betweenJson: UILabel!
+    @IBOutlet weak var betweenPoints: UILabel!
     @IBOutlet weak var idxWaypoint: UILabel!
     @IBOutlet weak var poxX: UILabel!
     @IBOutlet weak var posY: UILabel!
@@ -222,7 +224,13 @@ class ViewController: UIViewController, ARSCNViewDelegate{
                 }
             }
 
-            self.camera.transform = PointOfViewTransform;
+           // self.camera.position = currentPositionOfCamera
+            self.camera.rotation = pointOfView.rotation;
+            self.camera.position = pointOfView.position;
+      
+            
+     //       self.camera.eulerAngles = pointOfView.eulerAngles;
+           
             self.map.addChildNode(self.camera)
             
             
@@ -414,7 +422,10 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         //Vector3 node_pos = node.getLocalPosition();
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow( Double(node.position.x) - (json1.x as NSString).doubleValue , 2 ) +
-            pow(Double(node.position.z  )  - (json1.y as NSString).doubleValue, 2 ));
+            pow(Double(node.position.z * -1   )  - (json1.y as NSString).doubleValue, 2 ));
+        DispatchQueue.main.async {
+            self.betweenPoints.text = String(Float(dist));
+        }
         return dist;
     }
       
@@ -422,15 +433,19 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow((json1.x as NSString).doubleValue - (json2.x as NSString).doubleValue , 2 ) +
                     pow((json1.y as NSString).doubleValue  - (json2.y as NSString).doubleValue   , 2 ))
+        
+        DispatchQueue.main.async {
+            self.betweenJson.text = String(Float(dist));
+        }
         return dist;
       }
 
     func pointToNode(node : SCNNode) {
-  /*
+  
         return;
         
         guard let pointOfView = scnView.pointOfView else { return}
-        
+        /*
         for arrownode in pointOfView.childNodes {
            // if (arrownode.name == "arrow") {
                 arrownode.removeFromParentNode()

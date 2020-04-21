@@ -23,14 +23,11 @@
 		D4BFEEC424112675000E68C9 /* AugmentedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFEEC024112672000E68C9 /* AugmentedImage.swift */; };
 		D4BFEEC524112675000E68C9 /* Rotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFEEC124112673000E68C9 /* Rotation.swift */; };
 		D4BFEEC624112675000E68C9 /* AugmentedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BFEEC224112675000E68C9 /* AugmentedImages.swift */; };
-		D4EF5E7D240E59670063790D /* textures in Resources */ = {isa = PBXBuildFile; fileRef = D4EF5E7C240E59670063790D /* textures */; };
 		D4FDE3F72405313E003A89C6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDE3F62405313E003A89C6 /* AppDelegate.swift */; };
 		D4FDE3F92405313E003A89C6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDE3F82405313E003A89C6 /* ViewController.swift */; };
 		D4FDE3FC2405313E003A89C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE3FA2405313E003A89C6 /* Main.storyboard */; };
 		D4FDE3FE24053140003A89C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE3FD24053140003A89C6 /* Assets.xcassets */; };
 		D4FDE40124053140003A89C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE3FF24053140003A89C6 /* LaunchScreen.storyboard */; };
-		D4FDE40C24053140003A89C6 /* bcTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDE40B24053140003A89C6 /* bcTests.swift */; };
-		D4FDE41724053140003A89C6 /* bcUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FDE41624053140003A89C6 /* bcUITests.swift */; };
 		D4FDE42524054864003A89C6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE42424054864003A89C6 /* art.scnassets */; };
 		F9BCE8EFD6B3AD618D0C5246 /* Pods_bcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1ADC5CA07CFCD0AFE9F9405 /* Pods_bcTests.framework */; };
 /* End PBXBuildFile section */
@@ -76,7 +73,6 @@
 		D4BFEEC124112673000E68C9 /* Rotation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Rotation.swift; sourceTree = "<group>"; };
 		D4BFEEC224112675000E68C9 /* AugmentedImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AugmentedImages.swift; sourceTree = "<group>"; };
 		D4BFEEC72411270C000E68C9 /* SwiftyJSON.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftyJSON.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4EF5E7C240E59670063790D /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; path = textures; sourceTree = "<group>"; };
 		D4FDE3F32405313E003A89C6 /* bc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FDE3F62405313E003A89C6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4FDE3F82405313E003A89C6 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -85,11 +81,7 @@
 		D4FDE40024053140003A89C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4FDE40224053140003A89C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4FDE40724053140003A89C6 /* bcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FDE40B24053140003A89C6 /* bcTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bcTests.swift; sourceTree = "<group>"; };
-		D4FDE40D24053140003A89C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4FDE41224053140003A89C6 /* bcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4FDE41624053140003A89C6 /* bcUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = bcUITests.swift; sourceTree = "<group>"; };
-		D4FDE41824053140003A89C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4FDE42424054864003A89C6 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		D5D3D1E3266D3B5A0698BF0F /* Pods-bcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bcTests.release.xcconfig"; path = "Target Support Files/Pods-bcTests/Pods-bcTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,8 +170,6 @@
 			isa = PBXGroup;
 			children = (
 				D4FDE3F52405313E003A89C6 /* bc */,
-				D4FDE40A24053140003A89C6 /* bcTests */,
-				D4FDE41524053140003A89C6 /* bcUITests */,
 				D4FDE3F42405313E003A89C6 /* Products */,
 				0AF11D71D27340108E91FAFC /* Pods */,
 				8593DA9AC297F1391081147B /* Frameworks */,
@@ -201,7 +191,6 @@
 			children = (
 				D4BFEEBE2411265D000E68C9 /* model */,
 				D454E75A240E9BBC00B07A42 /* json */,
-				D4EF5E7C240E59670063790D /* textures */,
 				D4FDE3F62405313E003A89C6 /* AppDelegate.swift */,
 				D4FDE3F82405313E003A89C6 /* ViewController.swift */,
 				D4FDE3FA2405313E003A89C6 /* Main.storyboard */,
@@ -211,24 +200,6 @@
 				D4FDE42424054864003A89C6 /* art.scnassets */,
 			);
 			path = bc;
-			sourceTree = "<group>";
-		};
-		D4FDE40A24053140003A89C6 /* bcTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4FDE40B24053140003A89C6 /* bcTests.swift */,
-				D4FDE40D24053140003A89C6 /* Info.plist */,
-			);
-			path = bcTests;
-			sourceTree = "<group>";
-		};
-		D4FDE41524053140003A89C6 /* bcUITests */ = {
-			isa = PBXGroup;
-			children = (
-				D4FDE41624053140003A89C6 /* bcUITests.swift */,
-				D4FDE41824053140003A89C6 /* Info.plist */,
-			);
-			path = bcUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,7 +312,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4FDE40124053140003A89C6 /* LaunchScreen.storyboard in Resources */,
-				D4EF5E7D240E59670063790D /* textures in Resources */,
 				D454E75E240EA82400B07A42 /* waypoints.json in Resources */,
 				D4FDE3FE24053140003A89C6 /* Assets.xcassets in Resources */,
 				D4BFEEB2240FDBC2000E68C9 /* augmentedImages.json in Resources */,
@@ -495,7 +465,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FDE40C24053140003A89C6 /* bcTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -503,7 +472,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4FDE41724053140003A89C6 /* bcUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,7 +634,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T2P42K64MF;
 				INFOPLIST_FILE = bc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -686,7 +654,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = T2P42K64MF;
 				INFOPLIST_FILE = bc/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
