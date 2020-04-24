@@ -183,6 +183,12 @@ class ViewController: UIViewController, ARSCNViewDelegate{
 
     @IBAction func add(_ sender: Any) {
         
+
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let secondVC = storyboard.instantiateViewController(identifier: "import")
+
+        show(secondVC, sender: self)
+        
     //    let scene = SCNScene(named: "art.scnassets/1a/1a.scn");
      //   let node = scene?.rootNode.childNode(withName: "1a", recursively: false);
 

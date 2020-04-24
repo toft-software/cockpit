@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -18,16 +18,8 @@
                             <arscnView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tqE-ag-ILD">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                             </arscnView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z22-Mg-dUM">
-                                <rect key="frame" x="25" y="291" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
-                                <connections>
-                                    <action selector="add:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jYR-lS-fcg"/>
-                                </connections>
-                            </button>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wjk-qA-Yrl">
-                                <rect key="frame" x="16" y="503" width="343" height="144"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Wjk-qA-Yrl">
+                                <rect key="frame" x="16" y="515" width="343" height="132"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="POS X:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jV0-JR-myF">
                                         <rect key="frame" x="14" y="30" width="54" height="21"/>
@@ -185,16 +177,26 @@
                                     <constraint firstAttribute="height" constant="132" id="Ber-4k-KUH"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Z22-Mg-dUM">
+                                <rect key="frame" x="165" y="477" width="45" height="30"/>
+                                <state key="normal" title="import"/>
+                                <connections>
+                                    <action selector="add:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jYR-lS-fcg"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tqE-ag-ILD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="0dR-Mr-vFe"/>
+                            <constraint firstItem="Wjk-qA-Yrl" firstAttribute="top" secondItem="Z22-Mg-dUM" secondAttribute="bottom" constant="8" id="6I3-hz-oeq"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Wjk-qA-Yrl" secondAttribute="bottom" constant="20" id="7Hv-mD-x4Z"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="tqE-ag-ILD" secondAttribute="bottom" id="Hy4-HJ-vnM"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Wjk-qA-Yrl" secondAttribute="trailing" constant="16" id="IbT-QQ-l7Q"/>
                             <constraint firstItem="tqE-ag-ILD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NFI-kT-kGF"/>
+                            <constraint firstItem="Z22-Mg-dUM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="165" id="ZuP-Wy-nJ0"/>
                             <constraint firstItem="Wjk-qA-Yrl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="pqh-vr-eeW"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="tqE-ag-ILD" secondAttribute="trailing" id="uKD-Tq-o7T"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Z22-Mg-dUM" secondAttribute="trailing" constant="165" id="ywe-TP-aYk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
@@ -217,6 +219,76 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="133.59999999999999" y="133.5832083958021"/>
+        </scene>
+        <!--import-->
+        <scene sceneID="BlV-Ff-KaP">
+            <objects>
+                <viewController storyboardIdentifier="import" title="import" id="RCw-53-aQe" customClass="ImportViewController" customModule="bc" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="vhk-u6-zqi">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="UdZ-Yo-cSK">
+                                <rect key="frame" x="126" y="114.5" width="122" height="180"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLu-YI-W1L">
+                                        <rect key="frame" x="46" y="0.0" width="30" height="30"/>
+                                        <state key="normal" title="QR"/>
+                                        <connections>
+                                            <action selector="addQR:" destination="RCw-53-aQe" eventType="touchUpInside" id="PUa-5T-h2s"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dk5-1e-DGR">
+                                        <rect key="frame" x="0.0" y="50" width="122" height="30"/>
+                                        <state key="normal" title="3D MATTERPORT">
+                                            <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="add3D:" destination="RCw-53-aQe" eventType="touchUpInside" id="8wH-PX-iLK"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AVm-jI-f8M">
+                                        <rect key="frame" x="22.5" y="100" width="77" height="30"/>
+                                        <state key="normal" title="WAYPOINT"/>
+                                        <connections>
+                                            <action selector="addWaypoints:" destination="RCw-53-aQe" eventType="touchUpInside" id="Ehp-hz-th8"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tdf-Pn-zBY">
+                                        <rect key="frame" x="9.5" y="150" width="103" height="30"/>
+                                        <state key="normal" title="MAP OBJECTS"/>
+                                        <connections>
+                                            <action selector="addMapObjects:" destination="RCw-53-aQe" eventType="touchUpInside" id="HUZ-Lv-U9v"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="IMPORT " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Cr-Ot-caa">
+                                <rect key="frame" x="22" y="20" width="104" height="32.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="27"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="UdZ-Yo-cSK" firstAttribute="top" secondItem="hmK-I8-g2r" secondAttribute="top" constant="114.5" id="LNS-iI-PQX"/>
+                            <constraint firstItem="UdZ-Yo-cSK" firstAttribute="leading" secondItem="hmK-I8-g2r" secondAttribute="leading" constant="126" id="Qmq-Bp-cbb"/>
+                            <constraint firstItem="hmK-I8-g2r" firstAttribute="trailing" secondItem="UdZ-Yo-cSK" secondAttribute="trailing" constant="127" id="R0w-t9-xC6"/>
+                            <constraint firstItem="7Cr-Ot-caa" firstAttribute="leading" secondItem="hmK-I8-g2r" secondAttribute="leading" constant="22" id="TTs-TD-GOH"/>
+                            <constraint firstItem="7Cr-Ot-caa" firstAttribute="top" secondItem="hmK-I8-g2r" secondAttribute="top" constant="20" id="TvM-K7-ATX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="hmK-I8-g2r"/>
+                    </view>
+                    <connections>
+                        <outlet property="Add3D" destination="dk5-1e-DGR" id="lIP-p9-1B6"/>
+                        <outlet property="AddMapObjects" destination="Tdf-Pn-zBY" id="ouV-VP-UqV"/>
+                        <outlet property="AddWaypoint" destination="AVm-jI-f8M" id="75o-fT-jY7"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uXT-R8-fN8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="908" y="131.78410794602701"/>
         </scene>
     </scenes>
 </document>
