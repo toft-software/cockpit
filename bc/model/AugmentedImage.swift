@@ -78,5 +78,18 @@ class AugmentedImage : NSObject, NSCoding{
         }
 
     }
-
+    
+    var WorldX : Double {
+       get {
+            if ((self.position.x as NSString).doubleValue < 0)
+            {
+                return (self.position.x as NSString).doubleValue * -1;
+                }
+            else
+                {
+                return (self.position.x as NSString).doubleValue;
+            }
+           
+       }
+    }
 }

@@ -29,6 +29,7 @@
 		D4FDE3FE24053140003A89C6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE3FD24053140003A89C6 /* Assets.xcassets */; };
 		D4FDE40124053140003A89C6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE3FF24053140003A89C6 /* LaunchScreen.storyboard */; };
 		D4FDE42524054864003A89C6 /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = D4FDE42424054864003A89C6 /* art.scnassets */; };
+		D4FF8AB32452E39500614875 /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF8AB22452E39500614875 /* ImportViewController.swift */; };
 		F9BCE8EFD6B3AD618D0C5246 /* Pods_bcTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A1ADC5CA07CFCD0AFE9F9405 /* Pods_bcTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +84,7 @@
 		D4FDE40724053140003A89C6 /* bcTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bcTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FDE41224053140003A89C6 /* bcUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bcUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4FDE42424054864003A89C6 /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		D4FF8AB22452E39500614875 /* ImportViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImportViewController.swift; path = bc/ImportViewController.swift; sourceTree = SOURCE_ROOT; };
 		D5D3D1E3266D3B5A0698BF0F /* Pods-bcTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-bcTests.release.xcconfig"; path = "Target Support Files/Pods-bcTests/Pods-bcTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +194,7 @@
 				D4BFEEBE2411265D000E68C9 /* model */,
 				D454E75A240E9BBC00B07A42 /* json */,
 				D4FDE3F62405313E003A89C6 /* AppDelegate.swift */,
+				D4FF8AB22452E39500614875 /* ImportViewController.swift */,
 				D4FDE3F82405313E003A89C6 /* ViewController.swift */,
 				D4FDE3FA2405313E003A89C6 /* Main.storyboard */,
 				D4FDE3FD24053140003A89C6 /* Assets.xcassets */,
@@ -458,6 +461,7 @@
 				D479CBEE242E0D5D00A790D5 /* LinkedList.swift in Sources */,
 				D4BFEEC524112675000E68C9 /* Rotation.swift in Sources */,
 				D48340D8243627B400AE96C5 /* MathExt.swift in Sources */,
+				D4FF8AB32452E39500614875 /* ImportViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

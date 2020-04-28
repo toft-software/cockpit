@@ -14,7 +14,9 @@ import SwiftyJSON;
 import Foundation;
 import Darwin
 
-class ViewController: UIViewController, ARSCNViewDelegate{
+class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
+
+    
 
     @IBOutlet weak var betweenJson: UILabel!
     @IBOutlet weak var betweenPoints: UILabel!
@@ -36,10 +38,14 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     private var waypoint_json : Waypoints = Waypoints(fromJson: "");
     
     private var map : SCNNode!
+    private var mapHelper : SCNNode!
     private var camera : SCNNode!
     private var arrow : SCNNode!
     private var waypoint : SCNNode!
     private var waypointShowArrowBlue : SCNNode!
+    
+    var startingPosition: SCNNode?
+    private var scnViewMap: SCNView!
 
     private var rot : Int = 0
     
@@ -53,11 +59,19 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
 
+        
+        
         // AR objects
         map =  SCNNode();
+        map.name = "map";
+        
+        mapHelper =  SCNNode();
+        mapHelper.name = "mapHelper";
+
+        
         camera = SCNNode();
         camera.name = "camera";
-        
+                
         arrow =  SCNNode();
         arrow.name = "arrow";
         
@@ -73,6 +87,8 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         configuration.detectionImages = referenceImages
         self.scnView.session.run(configuration);
         self.scnView.delegate = self;
+        
+
 
         // Load JSON files
         image_json = loadJSONFile(filename: "augmentedImages") as! AugmentedImages
@@ -131,13 +147,67 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         
     }
     
+       
+       // MARK: - ARSCNViewDelegate (Image detection results)
+       /// - Tag: ARImageAnchor-Visualizing
+       func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
+           guard let imageAnchor = anchor as? ARImageAnchor else { return }
+           let referenceImage = imageAnchor.referenceImage
+          
+           let newAnchor = ARAnchor(anchor: imageAnchor)
+
+           // QRAnchor
+           let QRAnchor = SCNNode();
+           QRAnchor.transform = SCNMatrix4(imageAnchor.transform)
+    
+           //Plane
+           let planeAnchor = SCNNode();
+           planeAnchor.position = SCNVector3(0,0,0);
+           
+           let box = SCNPlane();
+           box.width = referenceImage.physicalSize.width;
+           box.height = referenceImage.physicalSize.height;
+           
+           box.firstMaterial?.diffuse.contents = UIColor.red;
+           planeAnchor.eulerAngles.x = -.pi / 2
+           planeAnchor.geometry = box;
+           QRAnchor.addChildNode(planeAnchor);
+       
+           self.scnView.scene.rootNode.addChildNode(QRAnchor);
+       //    self.scnView.session.add(anchor: imageAnchor);
+        
+        
+           
+           DispatchQueue.main.async {
+               let imageName = referenceImage.name ?? ""
+        
+               for augImage in self.image_json.augmentedImages {
+                   if (String(augImage.id) == imageName) {
+                       self.Add3DMatterPort(augImage: augImage, QRNode: QRAnchor);
+                   }
+               }
+           }
+    
+       }
+
+       var imageHighlightAction: SCNAction {
+           return .sequence([
+               .wait(duration: 0.25),
+               .fadeOpacity(to: 0.85, duration: 0.25),
+               .fadeOpacity(to: 0.15, duration: 0.25),
+               .fadeOpacity(to: 0.85, duration: 0.25),
+               .fadeOut(duration: 0.5),
+               .removeFromParentNode()
+           ])
+       }
+    
     func Add3DMatterPort (augImage : AugmentedImage, QRNode : SCNNode)
     {
         updateQueue.async {
             let scene = SCNScene(named: "art.scnassets/1a/1a.scn");
             self.map = scene?.rootNode.childNode(withName: "1a", recursively: false);
 
-            let position = SCNVector3(CGFloat((augImage.position.x as NSString).floatValue), CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
+            let position = SCNVector3(CGFloat(augImage.WorldX) , CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
                    
             let rx = ((augImage.rotation.rx as NSString).integerValue.degreesToRadians);
             let ry = ((augImage.rotation.ry as NSString).integerValue.degreesToRadians);
@@ -145,6 +215,9 @@ class ViewController: UIViewController, ARSCNViewDelegate{
             let rotation = SCNVector3(Float(rx), Float(ry), Float(rz));
             
             self.map?.position = position;
+            
+            self.mapHelper?.position = SCNVector3(CGFloat((augImage.position.x as NSString).floatValue), CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
+            
          //   Rotation around an axis = eulerAngles
             self.map?.eulerAngles = rotation;
             QRNode.addChildNode(self.map!);
@@ -156,6 +229,18 @@ class ViewController: UIViewController, ARSCNViewDelegate{
 
             self.map.addChildNode(self.camera);
             self.camera.addChildNode(self.arrow);
+                        
+            guard let currentFrame = self.scnView.session.currentFrame else {return}
+            let camera = currentFrame.camera
+            let transform = camera.transform
+            var translationMatrix = matrix_identity_float4x4
+            translationMatrix.columns.3.z = -0.1
+            let modifiedMatrix = simd_mul(transform, translationMatrix)
+            let sphere = SCNNode(geometry: SCNSphere(radius: 0.005))
+            sphere.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
+            sphere.simdTransform = modifiedMatrix
+            self.startingPosition = sphere
+            
         }
         
     }
@@ -164,6 +249,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     {
         updateQueue.async {
             let scene = SCNScene(named: "art.scnassets/mapObject/Jellyfish.dae");
+
             let node3DModel = scene?.rootNode.childNode(withName: "Sphere", recursively: false);
 
             let position = SCNVector3(CGFloat((mapObject.position.x as NSString).floatValue), CGFloat((mapObject.position.y as NSString).floatValue), CGFloat((mapObject.position.z as NSString).floatValue));
@@ -186,7 +272,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let secondVC = storyboard.instantiateViewController(identifier: "import")
-
+        
         show(secondVC, sender: self)
         
     //    let scene = SCNScene(named: "art.scnassets/1a/1a.scn");
@@ -217,30 +303,29 @@ class ViewController: UIViewController, ARSCNViewDelegate{
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
         updateQueue.async {
+            guard let startingPosition = self.startingPosition else {return}
             guard let pointOfView = self.scnView.pointOfView else { return}
             let PointOfViewTransform = pointOfView.transform;
-            let orientation = SCNVector3(-PointOfViewTransform.m31, -PointOfViewTransform.m32, -PointOfViewTransform.m33);
             let location = SCNVector3(PointOfViewTransform.m41, PointOfViewTransform.m42, PointOfViewTransform.m43);
-            let currentPositionOfCamera = orientation + location;
-                
 
-            self.map.enumerateChildNodes { (node, _) in
-                if (node.name == "camera") {
-                    node.removeFromParentNode();
-                }
-            }
-
-           // self.camera.position = currentPositionOfCamera
-            self.camera.rotation = pointOfView.rotation;
-            self.camera.position = pointOfView.position;
-      
+            let xDist = location.x - startingPosition.position.x;
+            let yDist = location.y - startingPosition.position.y;
+            let zDist = location.z - startingPosition.position.z;
             
-     //       self.camera.eulerAngles = pointOfView.eulerAngles;
+            let xDistTransform = xDist + self.mapHelper.position.x;
+            let yDistTransform = (zDist * -1) + self.mapHelper.position.y;
+            let zDistTransform = yDist + self.mapHelper.position.z;
+            
+            let currentPositionOfCamera = SCNVector3(xDistTransform,yDistTransform,zDistTransform);
+
+            self.camera.position = currentPositionOfCamera
+
            
-            self.map.addChildNode(self.camera)
+        //    self.map.addChildNode(self.camera)
             
+
             
-            // Waypoint nav
+        
             if(self.route.count > 1) {
                 let first_point_pos = self.waypoint_json.waypoints[self.route[0]].position;
                 let sec_point_pos = self.waypoint_json.waypoints[self.route[1]].position;
@@ -260,6 +345,8 @@ class ViewController: UIViewController, ARSCNViewDelegate{
                 self.pointToNode(node : self.waypoint);
             }
         }
+        
+        
         var idxW = "";
         for i in 0..<self.route.count
         {
@@ -282,60 +369,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         
     }
     
-    
-    // MARK: - ARSCNViewDelegate (Image detection results)
-    /// - Tag: ARImageAnchor-Visualizing
-    func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
-        guard let imageAnchor = anchor as? ARImageAnchor else { return }
-        let referenceImage = imageAnchor.referenceImage
-       
-        _ = SCNVector3Make(imageAnchor.transform.columns.3.x,
-                                           imageAnchor.transform.columns.3.y,
-                                           imageAnchor.transform.columns.3.z)
 
-
-        // QRAnchor
-        let QRAnchor = SCNNode();
-        QRAnchor.transform = SCNMatrix4(imageAnchor.transform)
- 
-        //Plane
-        let planeAnchor = SCNNode();
-        planeAnchor.position = SCNVector3(0,0,0);
-        
-        let box = SCNPlane();
-        box.width = referenceImage.physicalSize.width;
-        box.height = referenceImage.physicalSize.height;
-        
-        box.firstMaterial?.diffuse.contents = UIColor.red;
-        planeAnchor.eulerAngles.x = -.pi / 2
-        planeAnchor.geometry = box;
-        QRAnchor.addChildNode(planeAnchor);
-        
-        self.scnView.scene.rootNode.addChildNode(QRAnchor);
-        
-        
-        DispatchQueue.main.async {
-            let imageName = referenceImage.name ?? ""
-     
-            for augImage in self.image_json.augmentedImages {
-                if (String(augImage.id) == imageName) {
-                    self.Add3DMatterPort(augImage: augImage, QRNode: QRAnchor);
-                }
-            }
-        }
- 
-    }
-
-    var imageHighlightAction: SCNAction {
-        return .sequence([
-            .wait(duration: 0.25),
-            .fadeOpacity(to: 0.85, duration: 0.25),
-            .fadeOpacity(to: 0.15, duration: 0.25),
-            .fadeOpacity(to: 0.85, duration: 0.25),
-            .fadeOut(duration: 0.5),
-            .removeFromParentNode()
-        ])
-    }
 
     func  loadJSONFile(filename : String) -> AnyObject {
         
@@ -428,7 +462,7 @@ class ViewController: UIViewController, ARSCNViewDelegate{
         //Vector3 node_pos = node.getLocalPosition();
         var dist = Double.greatestFiniteMagnitude;
         dist = sqrt(pow( Double(node.position.x) - (json1.x as NSString).doubleValue , 2 ) +
-            pow(Double(node.position.z * -1   )  - (json1.y as NSString).doubleValue, 2 ));
+            pow(Double(node.position.y  )  - (json1.y as NSString).doubleValue, 2 ));
         DispatchQueue.main.async {
             self.betweenPoints.text = String(Float(dist));
         }
@@ -584,6 +618,12 @@ class ViewController: UIViewController, ARSCNViewDelegate{
          }
          return false;
      }
+    
+    func Update(wayPoint: String) {
+        
+        
+    }
+    
 }
 func getOrientation(node : SCNNode ) -> SCNVector3
 {

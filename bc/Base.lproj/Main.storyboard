@@ -269,6 +269,23 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="FWd-bu-YgE">
+                                <rect key="frame" x="67" y="318" width="261" height="202"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z69-bD-LCX">
+                                <rect key="frame" x="154" y="544" width="67" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Save Way"/>
+                                <connections>
+                                    <action selector="saveWaypoint:" destination="RCw-53-aQe" eventType="touchUpInside" id="smH-ex-jQt"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -284,6 +301,8 @@
                         <outlet property="Add3D" destination="dk5-1e-DGR" id="lIP-p9-1B6"/>
                         <outlet property="AddMapObjects" destination="Tdf-Pn-zBY" id="ouV-VP-UqV"/>
                         <outlet property="AddWaypoint" destination="AVm-jI-f8M" id="75o-fT-jY7"/>
+                        <outlet property="butSaveWaypoints" destination="z69-bD-LCX" id="v2h-Z4-yuf"/>
+                        <outlet property="wayPoints" destination="FWd-bu-YgE" id="YrU-uD-4Ra"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uXT-R8-fN8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

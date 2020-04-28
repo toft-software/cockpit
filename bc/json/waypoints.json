@@ -38,7 +38,7 @@
                 "z":"1.5"
             },
             "Index": 3,
-            "Neighbors": [2,4,5]
+            "Neighbors": [2,4]
         },
         {
             "": "Chr office",
@@ -48,7 +48,7 @@
                 "z":"1.5"
             },
             "Index": 4,
-            "Neighbors": [3]
+            "Neighbors": [3,5]
         },
         {
             "": "LOOP",
@@ -58,7 +58,7 @@
                 "z":"1.5"
             },
             "Index": 5,
-            "Neighbors": [3, 6]
+            "Neighbors": [4, 6]
         },
         {
             "": "dummy",
