@@ -234,14 +234,6 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLu-YI-W1L">
-                                <rect key="frame" x="49" y="297" width="30" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="QR"/>
-                                <connections>
-                                    <action selector="addQR:" destination="RCw-53-aQe" eventType="touchUpInside" id="PUa-5T-h2s"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dk5-1e-DGR">
                                 <rect key="frame" x="49" y="219" width="122" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -303,6 +295,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RLu-YI-W1L">
+                                <rect key="frame" x="52" y="297" width="127" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="augmentedimages"/>
+                                <connections>
+                                    <action selector="addQR:" destination="RCw-53-aQe" eventType="touchUpInside" id="PUa-5T-h2s"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
@@ -315,6 +315,7 @@
                         <outlet property="Add3D" destination="dk5-1e-DGR" id="lIP-p9-1B6"/>
                         <outlet property="AddMapObjects" destination="Tdf-Pn-zBY" id="ouV-VP-UqV"/>
                         <outlet property="AddWaypoint" destination="AVm-jI-f8M" id="75o-fT-jY7"/>
+                        <outlet property="QR" destination="QXr-Zq-ylQ" id="jeF-Ox-3GZ"/>
                         <outlet property="butSaveWaypoints" destination="z69-bD-LCX" id="v2h-Z4-yuf"/>
                         <outlet property="mapObject" destination="gKX-yi-B6e" id="D9a-6L-vRa"/>
                         <outlet property="matterPort" destination="8w4-9Q-n73" id="jsQ-Xc-ij3"/>

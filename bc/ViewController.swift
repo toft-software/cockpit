@@ -88,25 +88,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         self.scnView.session.run(configuration);
         self.scnView.delegate = self;
         
+        self.loadJson()
 
-
-        // Load JSON files
-        image_json = loadJSONFile(filename: "augmentedImages") as! AugmentedImages
-        map_obj_json = loadJSONFile(filename: "map_objects") as! Maps
-        waypoint_json = loadJSONFile(filename: "waypoints") as! Waypoints
-        
     /*    let sceneCup = SCNScene(named: "art.scnassets/1a/cup.scn");
         waypointShowCup = (sceneCup?.rootNode.childNode(withName: "cup", recursively: false))!;
         */
         
         let sceneVase = SCNScene(named: "art.scnassets/wayObject/ArrowB.scn");
         waypointShowArrowBlue = sceneVase?.rootNode.childNode(withName: "ArrowB", recursively: false);
-        /*
+        
         let sceneArrow = SCNScene(named: "art.scnassets/camera/arrow.dae");
         arrow = sceneArrow?.rootNode.childNode(withName: "arrow", recursively: false);
-        */
+        /*
         let sceneArrow = SCNScene(named: "art.scnassets/1a/cup.scn");
         arrow = sceneArrow?.rootNode.childNode(withName: "cup", recursively: false);
+ */
     }
     
     @IBAction func goTo(_ sender: Any) {
@@ -121,19 +117,19 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         }))
 
         alert.addAction(UIAlertAction(title: "comm Christian Office", style: .default , handler:{ (UIAlertAction)in
-            target_index = 4;
+            target_index = 9;
             self.goToLocation.setTitle("MY OFFICE office", for : UIControl.State.normal);
             self.findRouteTo(index: target_index);
         }))
 
         alert.addAction(UIAlertAction(title: "fire Fittness room (LOOP)", style: .default , handler:{ (UIAlertAction)in
-            target_index = 5;
+            target_index = 10;
             self.goToLocation.setTitle("FITTNESS ", for : UIControl.State.normal);
             self.findRouteTo(index: target_index);
         }))
 
         alert.addAction(UIAlertAction(title: "Entrance", style: .default, handler:{ (UIAlertAction)in
-            target_index = 7;
+            target_index = 12;
             self.goToLocation.setTitle("ENTRANCE", for : UIControl.State.normal);
             self.findRouteTo(index: target_index);
         }))
@@ -271,32 +267,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         
 
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let secondVC = storyboard.instantiateViewController(identifier: "import")
-        
+        let secondVC = storyboard.instantiateViewController(identifier: "import") as ImportViewController
         show(secondVC, sender: self)
-        
-    //    let scene = SCNScene(named: "art.scnassets/1a/1a.scn");
-     //   let node = scene?.rootNode.childNode(withName: "1a", recursively: false);
-
-       // var transform = ARHitTestResult.;
-     //   var thirdColumn = transform.Column3;
-     //  node.Position = SCNVector3(thirdColumn.X, thirdColumn.Y, thirdColumn.Z);
-     //   node?.position = SCNVector3(0,0,0);
-    //    self.scnView.scene.rootNode.addChildNode(node!);
-        
-        arrow.position = SCNVector3( 0,0, 0);  //is a child of camera
-    //    arrow.eulerAngles = SCNVector3(90,90,0)
-        
-       rot = 90;
-        
-        
-        self.addBut.setTitle(String(arrow.eulerAngles.y), for: UIControl.State.normal);
-        
-        pointToNode(node: camera);
-        if (rot > 360) {
-            rot = 0;
-            arrow.eulerAngles.y = 0;
-        }
+        secondVC.searchdelegate = self;
             
     }
 
@@ -373,19 +346,21 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
 
     func  loadJSONFile(filename : String) -> AnyObject {
         
-        if let filePath = Bundle.main.path(forResource: filename, ofType: "json") {
+      //  url.absoluteURL.absoluteString
+        var filename1 = filename.replacingOccurrences(of: "file://", with: "")
+       // if let filePath = Bundle.main.path(forResource: filename, ofType: "") {
           // let data = NSData(contentsOfFile: filePath ) {
             do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: filePath), options: .mappedIfSafe)
+                let data = try NSData(contentsOf: NSURL(fileURLWithPath: filename1) as URL)
                 let result = JSON(data);
                     
-                if (filename == "augmentedImages") {
+                if (filename.contains("augmentedImages") ) {
                     return AugmentedImages(fromJson: result);
                 }
-                else if (filename == "map_objects") {
+                else if (filename.contains("map_objects")) {
                     return Maps(fromJson: result);
                 }
-                else if (filename == "waypoints") {
+                else if (filename.contains("waypoints")) {
                     return Waypoints(fromJson: result);
                 }
             }
@@ -394,8 +369,8 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
              }
             
             return AugmentedImages(fromJson: nil);
-        }
-       return AugmentedImages(fromJson: nil);
+       // }
+//return AugmentedImages(fromJson: nil);
 
     }
 
@@ -492,7 +467,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
            // }
         }
  */
-   /*
+   
         self.scnView.scene.rootNode.enumerateChildNodes { (arrownode, _) in
             if (arrownode.name == "arrow") {
                 arrownode.removeFromParentNode();
@@ -517,7 +492,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         
         
         
-        */
+        
         
      /*
         let currentPositionOfCamera = getLocation(node: camera)
@@ -557,9 +532,9 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         
         
         */
-        
+        /*
         self.camera.enumerateChildNodes { (arrownode, _) in
-            if (arrownode.name == "cup") {
+            if (arrownode.name == "arrow") {
                 arrownode.removeFromParentNode();
             }
         }
@@ -581,7 +556,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
 
         arrow.rotation = arrow_quat.toSCN();// = arrow_quat.toSCN();
 
-  
+  */
     }
 
     
@@ -621,10 +596,44 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
     
     func Update(wayPoint: String) {
         
+        loadJson();
+    }
+    
+    func loadJson()
+    {
+        // Load JSON files
+        if (GlobalVariables.NSQr != nil)
+        {
+            let path =  FileManager.default.temporaryDirectory;
+            let path1 = path.absoluteURL.absoluteString + GlobalVariables.NSQr;
+            image_json = loadJSONFile(filename: path1) as! AugmentedImages
+        }
+        if (GlobalVariables.NSMapObjects != nil)
+         {
+            let path =  FileManager.default.temporaryDirectory;
+             let path1 = path.absoluteURL.absoluteString + GlobalVariables.NSMapObjects;
+             map_obj_json = loadJSONFile(filename: path1) as! Maps
+            
+         }
+        if (GlobalVariables.NSWaypoint != nil)
+         {
+            let path =  FileManager.default.temporaryDirectory;
+             let path1 = path.absoluteURL.absoluteString + GlobalVariables.NSWaypoint;
+             waypoint_json = loadJSONFile(filename: path1) as! Waypoints
+         }
+
         
     }
     
+    
+    
 }
+
+
+
+
+
+
 func getOrientation(node : SCNNode ) -> SCNVector3
 {
     return SCNVector3(-node.transform.m31, -node.transform.m32, -node.transform.m33);

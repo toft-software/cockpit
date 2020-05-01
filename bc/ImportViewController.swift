@@ -16,7 +16,7 @@ enum selectedFile: Int{
 }
 
 
-class ImportViewController: UIViewController{
+ class ImportViewController: UIViewController{
 
 
     internal var searchdelegate : SavedPressedDelegate? = nil
@@ -28,10 +28,9 @@ class ImportViewController: UIViewController{
     @IBOutlet weak var AddMapObjects: UIButton!
     
     @IBOutlet weak var butSaveWaypoints: UIButton!
+       
     
-    @IBOutlet weak var wayPoints: UITextView!
-   
-    
+    @IBOutlet weak var QR: UITextField!
     @IBOutlet weak var matterPort: UITextField!
     @IBOutlet weak var mapObject: UITextField!
     @IBOutlet weak var wayPoint: UITextField!
@@ -42,14 +41,29 @@ class ImportViewController: UIViewController{
     
     @IBAction func saveWaypoint(_ sender: Any) {
         if (searchdelegate != nil) {
-            searchdelegate!.Update(wayPoint:  wayPoints.text);
+            searchdelegate!.Update(wayPoint:  "");
         }
         
     }
     
     override func viewDidLoad() {
-           super.viewDidLoad()
+       super.viewDidLoad()
+        
+        if (GlobalVariables.NSMapObjects != nil) {
+            self.mapObject.text = GlobalVariables.NSMapObjects
+        }
+        
+        if (GlobalVariables.NSQr != nil) {
+            self.QR.text = GlobalVariables.NSQr
+        }
 
+        if (GlobalVariables.NSMatterport != nil) {
+            self.matterPort.text = GlobalVariables.NSMatterport
+        }
+        
+        if (GlobalVariables.NSWaypoint != nil) {
+            self.wayPoint.text = GlobalVariables.NSWaypoint
+        }
     }
     
     @IBAction func addMapObjects(_ sender: Any) {
@@ -133,18 +147,23 @@ extension ImportViewController: UIDocumentPickerDelegate{
                 if (self.selected == selectedFile.waypoint)
                 {
                     self.wayPoint.text = tmpURL.lastPathComponent
+                    GlobalVariables.NSWaypoint = tmpURL.lastPathComponent
+                    
                 }
                 else if (self.selected == selectedFile.matterport)
                 {
                     self.matterPort.text = tmpURL.lastPathComponent
+                    GlobalVariables.NSMatterport = tmpURL.lastPathComponent
                 }
                 else if (self.selected == selectedFile.mapobject)
                 {
                     self.mapObject.text = tmpURL.lastPathComponent
+                    GlobalVariables.NSMapObjects = tmpURL.lastPathComponent
                 }
                 else if (self.selected == selectedFile.QR)
                 {
-//self.qr.text = tmpURL.lastPathComponent
+                    self.QR.text = tmpURL.lastPathComponent
+                    GlobalVariables.NSQr = tmpURL.lastPathComponent
                 }
                             // then remove the spinner view controller
                 self.child.willMove(toParent: nil)
