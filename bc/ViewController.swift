@@ -55,6 +55,24 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
     let updateQueue = DispatchQueue(label: Bundle.main.bundleIdentifier! +
         ".serialSceneKitQueue")
     
+    @IBAction func test(_ sender: Any) {
+       if (GlobalVariables.NSMatterport != nil)
+        {
+        //    let scene = SCNScene(url: NSURL(fileURLWithPath: //GlobalVariables.NSMatterport) as URL), options: nil);
+            let path =  FileManager.default.temporaryDirectory;
+            let path1 = path.absoluteURL.absoluteString + GlobalVariables.NSMatterport;
+            
+            let filename1 = path1.replacingOccurrences(of: "file://", with: "")
+       
+            if let objectScene = try? SCNScene(url: NSURL(fileURLWithPath: filename1) as URL, options: [.overrideAssetURLs: true])
+            {
+            //  SCNScene(named: "art.scnassets/1a/1a.scn");
+                 if (GlobalVariables.NSMapObjectsItem != nil) {
+                    self.map = objectScene.rootNode.childNode(withName: GlobalVariables.NSMapObjectsItem, recursively: false);
+                 }
+            }
+        }
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -110,6 +128,22 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
 
         let alert = UIAlertController(title: "Title", message: "Please Select Location", preferredStyle: .actionSheet)
 
+        
+        for wp in self.waypoint_json.waypoints {
+            if (wp.title != nil ) {
+                 if (wp.title != "dummy" ) {
+                    alert.addAction(UIAlertAction(title: wp.title, style: .default , handler:{ (UIAlertAction)in
+                        target_index = wp.index;
+                        self.goToLocation.setTitle(wp.title, for : UIControl.State.normal);
+                        self.findRouteTo(index: target_index);
+                    }))
+                 }
+            }
+        }
+
+        
+        /*
+        
         alert.addAction(UIAlertAction(title: "off Marinna Gade office", style: .default , handler:{ (UIAlertAction)in
             target_index = 0;
             self.goToLocation.setTitle("Mariannnas office", for : UIControl.State.normal);
@@ -133,7 +167,7 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
             self.goToLocation.setTitle("ENTRANCE", for : UIControl.State.normal);
             self.findRouteTo(index: target_index);
         }))
-        
+        */
         alert.addAction(UIAlertAction(title: "CANCEL", style: .cancel, handler:{ (UIAlertAction)in
         }))
 
@@ -200,43 +234,56 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
     func Add3DMatterPort (augImage : AugmentedImage, QRNode : SCNNode)
     {
         updateQueue.async {
-            let scene = SCNScene(named: "art.scnassets/1a/1a.scn");
-            self.map = scene?.rootNode.childNode(withName: "1a", recursively: false);
+            
+            if (GlobalVariables.NSMatterport != nil)
+             {
+                 let path =  FileManager.default.temporaryDirectory;
+                 let path1 = path.absoluteURL.absoluteString + GlobalVariables.NSMatterport;
+                 
+                 let filename1 = path1.replacingOccurrences(of: "file://", with: "")
+            
+                 if let objectScene = try? SCNScene(url: NSURL(fileURLWithPath: filename1) as URL, options: [.overrideAssetURLs: true])
+                 {
+                    if (GlobalVariables.NSMapObjectsItem != nil) {
+                       self.map = objectScene.rootNode.childNode(withName: GlobalVariables.NSMapObjectsItem, recursively: false);
+                    }
+                //    self.map = objectScene.rootNode.childNode(withName: "1a", recursively: false);
 
-            let position = SCNVector3(CGFloat(augImage.WorldX) , CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
-                   
-            let rx = ((augImage.rotation.rx as NSString).integerValue.degreesToRadians);
-            let ry = ((augImage.rotation.ry as NSString).integerValue.degreesToRadians);
-            let rz = ((augImage.rotation.rz as NSString).integerValue.degreesToRadians);
-            let rotation = SCNVector3(Float(rx), Float(ry), Float(rz));
-            
-            self.map?.position = position;
-            
-            self.mapHelper?.position = SCNVector3(CGFloat((augImage.position.x as NSString).floatValue), CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
-            
-         //   Rotation around an axis = eulerAngles
-            self.map?.eulerAngles = rotation;
-            QRNode.addChildNode(self.map!);
+                let position = SCNVector3(CGFloat(augImage.WorldX) , CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
+                       
+                let rx = ((augImage.rotation.rx as NSString).integerValue.degreesToRadians);
+                let ry = ((augImage.rotation.ry as NSString).integerValue.degreesToRadians);
+                let rz = ((augImage.rotation.rz as NSString).integerValue.degreesToRadians);
+                let rotation = SCNVector3(Float(rx), Float(ry), Float(rz));
+                
+                self.map?.position = position;
+                
+                self.mapHelper?.position = SCNVector3(CGFloat((augImage.position.x as NSString).floatValue), CGFloat((augImage.position.y as NSString).floatValue), CGFloat((augImage.position.z as NSString).floatValue));
+                
+             //   Rotation around an axis = eulerAngles
+                self.map?.eulerAngles = rotation;
+                QRNode.addChildNode(self.map!);
 
-            //Add 3d Objects
-            for mapObject in self.map_obj_json.maps {
-                self.Add3DMapToMAp(mapObject: mapObject, map3D: self.map!)
+                //Add 3d Objects
+                for mapObject in self.map_obj_json.maps {
+                    self.Add3DMapToMAp(mapObject: mapObject, map3D: self.map!)
+                }
+
+                self.map.addChildNode(self.camera);
+                self.camera.addChildNode(self.arrow);
+                            
+                guard let currentFrame = self.scnView.session.currentFrame else {return}
+                let camera = currentFrame.camera
+                let transform = camera.transform
+                var translationMatrix = matrix_identity_float4x4
+                translationMatrix.columns.3.z = -0.1
+                let modifiedMatrix = simd_mul(transform, translationMatrix)
+                let sphere = SCNNode(geometry: SCNSphere(radius: 0.005))
+                sphere.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
+                sphere.simdTransform = modifiedMatrix
+                self.startingPosition = sphere
+                }
             }
-
-            self.map.addChildNode(self.camera);
-            self.camera.addChildNode(self.arrow);
-                        
-            guard let currentFrame = self.scnView.session.currentFrame else {return}
-            let camera = currentFrame.camera
-            let transform = camera.transform
-            var translationMatrix = matrix_identity_float4x4
-            translationMatrix.columns.3.z = -0.1
-            let modifiedMatrix = simd_mul(transform, translationMatrix)
-            let sphere = SCNNode(geometry: SCNSphere(radius: 0.005))
-            sphere.geometry?.firstMaterial?.diffuse.contents = UIColor.yellow
-            sphere.simdTransform = modifiedMatrix
-            self.startingPosition = sphere
-            
         }
         
     }
@@ -341,8 +388,6 @@ class ViewController: UIViewController, ARSCNViewDelegate, SavedPressedDelegate{
         }
         
     }
-    
-
 
     func  loadJSONFile(filename : String) -> AnyObject {
         

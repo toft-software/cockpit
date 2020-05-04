@@ -16,6 +16,8 @@ public class GlobalVariables {
     public static var waypoint : String = "waypoint";
     public static var qr : String = "qr";
     public static var mapobjects : String = "mapobjects";
+    public static var mapobjectsitem : String = "mapobjectsitem";
+    
     
     
     public static var NSMatterport: String! {
@@ -63,6 +65,18 @@ public class GlobalVariables {
         set {
              let defaults = UserDefaults.standard
              defaults.set(newValue, forKey: mapobjects)
+        }
+    }
+    
+    public static var NSMapObjectsItem: String! {
+        get {
+            let defaults = UserDefaults.standard
+            let value = defaults.string(forKey: mapobjectsitem);
+            return value
+            }
+        set {
+             let defaults = UserDefaults.standard
+             defaults.set(newValue, forKey: mapobjectsitem)
         }
     }
 }

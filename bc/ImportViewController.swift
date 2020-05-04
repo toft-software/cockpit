@@ -34,6 +34,7 @@ enum selectedFile: Int{
     @IBOutlet weak var matterPort: UITextField!
     @IBOutlet weak var mapObject: UITextField!
     @IBOutlet weak var wayPoint: UITextField!
+    @IBOutlet weak var matterPortNode: UITextField!
     
     private var selected : selectedFile!
     private var child : SpinnerViewController!
@@ -43,11 +44,16 @@ enum selectedFile: Int{
         if (searchdelegate != nil) {
             searchdelegate!.Update(wayPoint:  "");
         }
-        
     }
+    
+    
+    
     
     override func viewDidLoad() {
        super.viewDidLoad()
+        
+        matterPortNode.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+
         
         if (GlobalVariables.NSMapObjects != nil) {
             self.mapObject.text = GlobalVariables.NSMapObjects
@@ -64,6 +70,14 @@ enum selectedFile: Int{
         if (GlobalVariables.NSWaypoint != nil) {
             self.wayPoint.text = GlobalVariables.NSWaypoint
         }
+        
+        if (GlobalVariables.NSMapObjectsItem != nil) {
+            self.matterPortNode.text = GlobalVariables.NSMapObjectsItem
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        GlobalVariables.NSMapObjectsItem = self.matterPortNode.text 
     }
     
     @IBAction func addMapObjects(_ sender: Any) {
@@ -110,9 +124,6 @@ enum selectedFile: Int{
 
         
     }
-    
-    
-    
 }
 
 extension ImportViewController: UIDocumentPickerDelegate{

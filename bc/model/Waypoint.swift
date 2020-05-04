@@ -9,6 +9,7 @@ import SwiftyJSON
 
 class Waypoint : NSObject, NSCoding{
 
+    var title : String!
     var index : Int!
     var neighbors : [Int]!
     var position : Position!
@@ -20,6 +21,7 @@ class Waypoint : NSObject, NSCoding{
 		if json.isEmpty{
 			return
 		}
+        title = json["Title"].stringValue
         index = json["Index"].intValue
         neighbors = [Int]()
         let neighborsArray = json["Neighbors"].arrayValue
@@ -38,6 +40,9 @@ class Waypoint : NSObject, NSCoding{
 	func toDictionary() -> [String:Any]
 	{
 		var dictionary = [String:Any]()
+        if title != nil{
+            dictionary["Title"] = title
+        }
         if index != nil{
         	dictionary["Index"] = index
         }
@@ -56,6 +61,7 @@ class Waypoint : NSObject, NSCoding{
     */
     @objc required init(coder aDecoder: NSCoder)
 	{
+        title = aDecoder.decodeObject(forKey: "Title") as? String
 		index = aDecoder.decodeObject(forKey: "Index") as? Int
 		neighbors = aDecoder.decodeObject(forKey: "Neighbors") as? [Int]
 		position = aDecoder.decodeObject(forKey: "Position") as? Position
@@ -67,6 +73,9 @@ class Waypoint : NSObject, NSCoding{
     */
     func encode(with aCoder: NSCoder)
 	{
+        if title != nil{
+            aCoder.encode(title, forKey: "Title")
+        }
 		if index != nil{
 			aCoder.encode(index, forKey: "Index")
 		}

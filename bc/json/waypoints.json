@@ -1,7 +1,7 @@
 {
     "Waypoints":[
         {
-            "": "Marianne Gade",
+            "Title": "Marianne Gade",
             "Position":{
                 "x":"2.3",
                 "y":"12.4",
@@ -11,7 +11,7 @@
             "Neighbors": [1]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"11.3",
@@ -21,7 +21,7 @@
             "Neighbors": [0,2]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"10.3",
@@ -31,7 +31,7 @@
             "Neighbors": [1,3]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"8.3",
@@ -41,7 +41,7 @@
             "Neighbors": [2,4]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"6.7",
@@ -51,7 +51,7 @@
             "Neighbors": [3,5]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"5.6",
@@ -61,7 +61,7 @@
             "Neighbors": [4,6]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"4.5",
@@ -71,7 +71,7 @@
             "Neighbors": [5,7]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"2.3",
                 "y":"3.4",
@@ -81,7 +81,7 @@
             "Neighbors": [6,8]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"1.3",
                 "y":"2.3",
@@ -91,7 +91,7 @@
             "Neighbors": [7,9]
         },
         {
-            "": "Chr office",
+            "Title": "Chr office",
             "Position":{
                 "x":"0.0",
                 "y":"0.0",
@@ -101,7 +101,7 @@
             "Neighbors": [8,10]
         },
         {
-            "": "LOOP",
+            "Title": "LOOP",
             "Position":{
                 "x":"-4.3",
                 "y":"2.3",
@@ -111,7 +111,7 @@
             "Neighbors": [9, 11]
         },
         {
-            "": "dummy",
+            "Title": "dummy",
             "Position":{
                 "x":"-8.3",
                 "y":"2.3",
@@ -121,7 +121,7 @@
             "Neighbors": [10, 12]
         },
         {
-            "": "Back entrance",
+            "Title": "Back entrance",
             "Position":{
                 "x":"-15.3",
                 "y":"2.3",
